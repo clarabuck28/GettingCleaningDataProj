@@ -1,8 +1,6 @@
 library(dplyr)
 
 #put training data into table
-setwd("/Users/clarabuck1/Desktop/GettingCleaningData/UCI HAR Dataset")
-setwd("train")
 subjecttrain<- read.table("subject_train.txt")
 if(!exists("xtrain")){
     xtrain <- read.table("X_train.txt")
@@ -12,7 +10,6 @@ if(!exists("ytrain")){
 }
 
 #put test data into tables
-setwd("/Users/clarabuck1/Desktop/GettingCleaningData/UCI HAR Dataset/test")
 subjectest<- read.table("subject_test.txt")
 if(!exists("xtest")){
     xtest <- read.table("X_test.txt")
@@ -33,7 +30,6 @@ mergeddatatrain <- cbind(subjecttrain,type = "train",ytrain,xtrain)
 mergeddata <- rbind(mergeddatatest, mergeddatatrain)
 
 #find the features which have std or mean in the name
-setwd("/Users/clarabuck1/Desktop/GettingCleaningData/UCI HAR Dataset")
 features <- read.table("features.txt")
 meanvector <- c(grepl(x= features[,"V2"],pattern = "mean",fixed=TRUE))
 stdvector <- c(grepl(x= features[,"V2"],pattern = "std",fixed=TRUE))
@@ -70,3 +66,4 @@ mergeddata <- arrange(mergeddata, subjectid)
 #creat tinydataset with the mean and std for each measurment and name them
 tinydataset <- group_by(mergeddata,subjectid,activity,type)
 tinydataset <- summarize_all(tinydataset, list(mean = mean, sd = sd))
+tinydataset
